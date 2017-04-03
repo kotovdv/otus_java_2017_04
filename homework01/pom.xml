@@ -28,6 +28,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <obfuscate>true</obfuscate>
                     <injar>classes</injar>
                     <outjar>${project.build.finalName}.${project.packaging}</outjar>
                     <proguardInclude>${basedir}/proguard.conf</proguardInclude>
