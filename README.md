@@ -1,3 +1,10 @@
-Дмитрий Котов
+<b>Дмитрий Котов</b>
 <br>
-Dmitriy Kotov
+<b>Dmitriy Kotov</b>
+
+
+<h3>Homework01</h3>
+
+1. <b>mvn clean install</b>
+2. <b>java -jar homework01.jar -path titanic_crash.csv</b>
+
