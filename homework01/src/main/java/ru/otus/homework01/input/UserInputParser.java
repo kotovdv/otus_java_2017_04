@@ -10,12 +10,12 @@ import java.nio.file.Paths;
  */
 public class UserInputParser {
 
+    private static final String DEFAULT_VALUE = "titanic_crash.csv";
     private final Options options = new Options();
     private final CommandLineParser parser = new DefaultParser();
 
     public UserInputParser() {
         Option path = Option.builder("path")
-                .required()
                 .argName("path")
                 .hasArg()
                 .desc("path to casualties .csv file")
@@ -27,7 +27,7 @@ public class UserInputParser {
     public UserInput parse(String[] args) {
         try {
             CommandLine commandLine = parser.parse(options, args);
-            String path = commandLine.getOptionValue("path");
+            String path = commandLine.getOptionValue("path", DEFAULT_VALUE);
 
             return new UserInput(Paths.get(path));
         } catch (ParseException e) {
