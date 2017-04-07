@@ -1,10 +1,7 @@
-<b>Дмитрий Котов</b>
-<br>
-<b>Dmitriy Kotov</b>
+Группа 2017-04-<b>X</b>
 
+### Автор 
+Dmitriy Kotov (Дмитрий Котов)
 
-<h3>Homework01</h3>
-
-1. mvn clean install
-2. java -jar homework01.jar
+xeno93@gmail.com
 
