@@ -2,6 +2,7 @@ package ru.otus.homework02.measure.tool.handler.concrete;
 
 import ru.otus.homework02.measure.tool.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
+import ru.otus.homework02.measure.tool.handler.concrete.memory.MemorySpecification;
 import ru.otus.homework02.measure.tool.result.ResultNode;
 
 import javax.annotation.Nonnull;
@@ -16,6 +17,8 @@ import static ru.otus.homework02.agent.Agent.getObjectSize;
  * @author Dmitriy Kotov
  */
 public class ReferenceTypeHandler extends FieldHandler {
+
+    private final MemorySpecification memorySpecification = MemorySpecification.getCurrentSpecification();
 
     public ReferenceTypeHandler(FieldHandlerProvider provider) {
         super(provider);
@@ -49,13 +52,14 @@ public class ReferenceTypeHandler extends FieldHandler {
         long personalSize = handler.size(targetField, source);
 
         return new ResultNode(
-                targetField,
+                targetField.getName(),
+                selectNodeType(targetField, targetObject),
+                targetObject,
                 personalSize,
-                branchSize > 0L ? branchSize : personalSize,
+                selectBranchSize(branchSize, personalSize),
                 children
         );
     }
-
 
     @Override
     public long size(@Nonnull Field instanceField, Object source) {
@@ -67,7 +71,7 @@ public class ReferenceTypeHandler extends FieldHandler {
     }
 
     private long calculateEmptyReferenceSize() {
-        return 0L;
+        return memorySpecification.getReferenceSize();
     }
 
 
@@ -75,6 +79,14 @@ public class ReferenceTypeHandler extends FieldHandler {
     public boolean canHandle(Class<?> type) {
         return true;
     }
+
+    private long selectBranchSize(long branchSize, long personalSize) {
+        return personalSize > branchSize
+                ? personalSize
+                : branchSize;
+    }
+
+
 
     private Field[] getDeclaredFields(Object instance) {
         return instance.getClass().getDeclaredFields();

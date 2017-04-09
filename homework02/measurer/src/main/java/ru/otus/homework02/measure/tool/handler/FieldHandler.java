@@ -4,6 +4,7 @@ import ru.otus.homework02.exception.UnableToGetFieldValueException;
 import ru.otus.homework02.measure.tool.result.ResultNode;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 
 /**
@@ -19,6 +20,7 @@ public abstract class FieldHandler {
 
     public abstract ResultNode handleField(final Field targetField, final Object source);
 
+    @Nullable
     protected Object getFieldValue(Field field, Object source) {
         Object value;
         try {
@@ -34,6 +36,12 @@ public abstract class FieldHandler {
         }
 
         return value;
+    }
+
+    protected Class<?> selectNodeType(Field targetField, Object targetFieldValue) {
+        return targetFieldValue != null
+                ? targetFieldValue.getClass()
+                : targetField.getType();
     }
 
     public abstract long size(@Nonnull Field currentField, Object source);

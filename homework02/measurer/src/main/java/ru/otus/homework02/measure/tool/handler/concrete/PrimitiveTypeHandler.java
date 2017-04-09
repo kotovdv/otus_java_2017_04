@@ -7,8 +7,9 @@ import ru.otus.homework02.measure.tool.result.ResultNode;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.Map;
+
+import static java.util.Collections.emptyList;
 
 /**
  * @author Dmitriy Kotov
@@ -33,10 +34,16 @@ public class PrimitiveTypeHandler extends FieldHandler {
 
     @Override
     public ResultNode handleField(Field targetField, Object source) {
-        return new ResultNode(targetField,
+        Object targetFieldValue = getFieldValue(targetField, source);
+
+        return new ResultNode(
+                targetField.getName(),
+                selectNodeType(targetField, targetFieldValue),
+                targetFieldValue,
                 size(targetField, source),
                 0,
-                Collections.emptyList());
+                emptyList()
+        );
     }
 
     @Override

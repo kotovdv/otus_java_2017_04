@@ -24,6 +24,10 @@ public class Result {
         this.rootNode = node;
     }
 
+    public void print() {
+        print(System.out);
+    }
+
     public void print(PrintStream outputStream) {
         printNodes(outputStream, rootNode);
     }

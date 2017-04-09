@@ -17,7 +17,12 @@ public class SizeMeasurementTool {
     );
 
     public Result measure(Object instance) {
+        if (instance == null) {
+            throw new IllegalArgumentException("Measured instance should be not null");
+        }
+
         MeasurementTarget target = new MeasurementTarget(instance);
+
         ResultNode rootNode = startingHandler.handleField(
                 target.getTargetField(),
                 target
@@ -29,9 +34,11 @@ public class SizeMeasurementTool {
 
     private static class MeasurementTarget {
         public final Object target;
+        public final Class<?> targetClass;
 
         private MeasurementTarget(Object target) {
             this.target = target;
+            this.targetClass = target.getClass();
         }
 
         private Field getTargetField() {

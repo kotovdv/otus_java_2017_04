@@ -14,7 +14,7 @@ public enum MemorySpecification {
     JVM_64_OOPS_ENABLED(16L, 12L, 8L, 4L),
     JVM_64_OOPS_DISABLED(24L, 16L, 8L, 8L);
 
-    private static final long OOPS_GIGABYTES_THREESHOLD = 30L * 1024 * 1024 * 1024;
+    private static final long OOPS_GIGABYTES_THRESHOLD = 30L * 1024 * 1024 * 1024;
 
     private final long arrayHeaderSize;
     private final long objectHeaderSize;
@@ -52,7 +52,7 @@ public enum MemorySpecification {
     }
 
     private static boolean isCompressionEnabled() {
-        return maxMemory() < OOPS_GIGABYTES_THREESHOLD && javaVersion() > 17;
+        return maxMemory() < OOPS_GIGABYTES_THRESHOLD && javaVersion() > 17;
     }
 
     private static int javaVersion() {

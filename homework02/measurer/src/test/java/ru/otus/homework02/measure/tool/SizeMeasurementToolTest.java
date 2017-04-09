@@ -2,10 +2,9 @@ package ru.otus.homework02.measure.tool;
 
 import org.junit.Test;
 import ru.otus.homework02.CustomSizeMeasurer;
+import ru.otus.homework02.measure.tool.subject.SingleFieldClass;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-import java.util.List;
+import java.util.HashMap;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,45 +18,30 @@ public class SizeMeasurementToolTest {
 
     @Test
     public void testIntegerSize() throws Exception {
-        Supplier<Integer> integerSupplier = () -> 300;
-
-        long expected = CustomSizeMeasurer.measure(integerSupplier);
-
-        long actual = sizeMeasurementTool.measure(integerSupplier.get()).getTotalSize();
-
-        assertThat(expected).isEqualTo(actual);
+        assertMeasurements(() -> 300);
     }
 
     @Test
     public void testDoubleSize() throws Exception {
-        Supplier<Double> integerSupplier = () -> 300D;
-
-        long expected = CustomSizeMeasurer.measure(integerSupplier);
-
-        long actual = sizeMeasurementTool.measure(integerSupplier.get()).getTotalSize();
-
-        assertThat(expected).isEqualTo(actual);
+        assertMeasurements(() -> 300D);
     }
 
     @Test
     public void testCustomClass() throws Exception {
-        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-        List<String> jvmArgs = runtimeMXBean.getInputArguments();
-        for (String arg : jvmArgs) {
-            System.out.println(arg);
-        }
+        assertMeasurements(SingleFieldClass::new);
+    }
 
-        Supplier<MyClass> myClassSupplier = MyClass::new;
+    @Test
+    public void testHashMapComparison() throws Exception {
+        assertMeasurements(HashMap::new);
+    }
 
+    private void assertMeasurements(Supplier<?> myClassSupplier) {
         long expected = CustomSizeMeasurer.measure(myClassSupplier);
 
         long actual = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
 
         assertThat(expected).isEqualTo(actual);
-
-    }
-
-    class MyClass {
-        private String emptyField;
     }
 }
+
