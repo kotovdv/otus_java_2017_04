@@ -5,6 +5,4 @@ package ru.otus.homework02;
  */
 public class App {
 
-    public static void main(String[] args) {
-    }
 }

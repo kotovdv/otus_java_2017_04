@@ -8,28 +8,23 @@
         <groupId>ru.otus</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <artifactId>homework02</artifactId>
 
-    <build>
-        <finalName>homework02</finalName>
-    </build>
+    <modules>
+        <module>agent</module>
+        <module>measurer</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>uk.com.robust-it</groupId>
-            <artifactId>cloning</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.otus</groupId>
+                <artifactId>agent</artifactId>
+                <version>${pom.parent.version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 </project>

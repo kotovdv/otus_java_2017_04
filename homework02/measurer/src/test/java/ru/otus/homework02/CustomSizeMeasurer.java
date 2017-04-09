@@ -1,19 +1,21 @@
-package ru.otus.homework2;
-
-import org.junit.Test;
+package ru.otus.homework02;
 
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 
-public class WeakHashMapTest {
+public class CustomSizeMeasurer {
 
     private static Map<Object, Object> map = new WeakHashMap<>();
 
     private static long SLEEP_DURATION = 100;
 
-    @Test
-    public void testFunctionality() throws Exception {
-        Object obj = new Object();
+    public static long measure(Supplier<?> supplier) {
+        return new CustomSizeMeasurer().measureSize(supplier);
+    }
+
+    private long measureSize(Supplier<?> supplier) {
+        Object obj = supplier.get();
 
         long startingMemory = getMemoryUse();
         map.put(obj, null);
@@ -21,15 +23,18 @@ public class WeakHashMapTest {
         System.gc();
         System.runFinalization();
 
+        waitForObjectToDisappear();
+        return startingMemory - getMemoryUse();
+    }
+
+    private void waitForObjectToDisappear() {
         while (map.size() != 0) {
 
         }
-        System.out.println(startingMemory - getMemoryUse());
-
     }
 
 
-    private static long getMemoryUse() {
+    private long getMemoryUse() {
         putOutTheGarbage();
         long totalMemory = Runtime.getRuntime().totalMemory();
         putOutTheGarbage();
@@ -37,12 +42,12 @@ public class WeakHashMapTest {
         return (totalMemory - freeMemory);
     }
 
-    private static void putOutTheGarbage() {
+    private void putOutTheGarbage() {
         collectGarbage();
         collectGarbage();
     }
 
-    private static void collectGarbage() {
+    private void collectGarbage() {
         try {
             System.gc();
             Thread.sleep(SLEEP_DURATION);
