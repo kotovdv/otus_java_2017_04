@@ -26,6 +26,20 @@ public class ReferenceTypeHandler extends FieldHandler {
     }
 
     @Override
+    public boolean canHandle(Class<?> type) {
+        return !type.isPrimitive();
+    }
+
+    @Override
+    public long size(@Nonnull Field instanceField, Object source) {
+        Object fieldObject = getFieldValue(instanceField, source);
+
+        return fieldObject != null
+                ? getObjectSize(fieldObject)
+                : calculateEmptyReferenceSize();
+    }
+
+    @Override
     public ResultNodeBuilder handleField(final Field targetField, final Object source) {
         Object targetObject = getFieldValue(targetField, source);
 
@@ -49,59 +63,46 @@ public class ReferenceTypeHandler extends FieldHandler {
         fieldVisitor.visit(targetObject, builder);
         TargetObjectHandlingResult handlingResult = handleTargetObject(targetObject);
 
-        long branchSize = calculateBranchSize(
-                handlingResult.getBranchSize(),
-                builder.getPersonalSize());
-
-        return builder.branchSize(branchSize).
+        return builder.branchSize(calculateBranchSize(builder, handlingResult)).
                 addChildren(handlingResult.getChildren());
+    }
+
+    private long calculateBranchSize(ResultNodeBuilder builder, TargetObjectHandlingResult handlingResult) {
+        return builder.getPersonalSize() + handlingResult.getBranchSize();
     }
 
     private TargetObjectHandlingResult handleTargetObject(@Nonnull Object targetObject) {
         List<ResultNodeBuilder> children = new ArrayList<>();
 
         long branchSize = 0;
-        for (Field currentField : getDeclaredFields(targetObject)) {
-            if (isStaticField(currentField)) {
-                continue;
+
+        Class<?> targetObjectClass = targetObject.getClass();
+
+        do {
+            for (Field currentField : getDeclaredFields(targetObjectClass)) {
+                if (isStaticField(currentField)) {
+                    continue;
+                }
+
+                FieldHandler currentHandler = provider.provideHandlerFor(currentField.getType());
+
+                ResultNodeBuilder child = currentHandler.handleField(currentField, targetObject);
+                branchSize += child.getBranchSize();
+
+                children.add(child);
             }
 
-            FieldHandler currentHandler = provider.provideHandlerFor(currentField.getType());
-
-            ResultNodeBuilder child = currentHandler.handleField(currentField, targetObject);
-            branchSize += child.getBranchSize();
-
-            children.add(child);
-        }
+            targetObjectClass = targetObjectClass.getSuperclass();
+        } while (targetObjectClass != null);
 
         return new TargetObjectHandlingResult(children, branchSize);
-    }
-
-    @Override
-    public long size(@Nonnull Field instanceField, Object source) {
-        Object fieldObject = getFieldValue(instanceField, source);
-
-        return fieldObject != null
-                ? getObjectSize(fieldObject)
-                : calculateEmptyReferenceSize();
-    }
-
-    @Override
-    public boolean canHandle(Class<?> type) {
-        return true;
     }
 
     private long calculateEmptyReferenceSize() {
         return memorySpecification.getReferenceSize();
     }
 
-    private long calculateBranchSize(long branchSize, long personalSize) {
-        return personalSize > branchSize
-                ? personalSize
-                : branchSize;
-    }
-
-    private Field[] getDeclaredFields(@Nonnull Object instance) {
-        return instance.getClass().getDeclaredFields();
+    private Field[] getDeclaredFields(Class<?> classType) {
+        return classType.getDeclaredFields();
     }
 }

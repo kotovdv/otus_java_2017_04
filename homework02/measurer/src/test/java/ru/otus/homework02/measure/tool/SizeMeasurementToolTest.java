@@ -2,9 +2,9 @@ package ru.otus.homework02.measure.tool;
 
 import org.junit.Test;
 import ru.otus.homework02.CustomSizeMeasurer;
-import ru.otus.homework02.measure.tool.result.Result;
 import ru.otus.homework02.measure.tool.subject.GenericObject;
 import ru.otus.homework02.measure.tool.subject.SingleFieldClass;
+import ru.otus.homework02.measure.tool.subject.inheritance.Child;
 
 import java.util.HashMap;
 import java.util.function.Supplier;
@@ -48,11 +48,15 @@ public class SizeMeasurementToolTest {
         });
     }
 
-    private void assertMeasurements(Supplier<?> myClassSupplier) {
-        Result measure = sizeMeasurementTool.measure(myClassSupplier.get());
-        measure.print();
+    @Test
+    public void testObjectWithInheritance() throws Exception {
+        assertMeasurements(() ->
+                new Child(80, 50, 22)
+        );
+    }
 
-        long actual = measure.getTotalSize();
+    private void assertMeasurements(Supplier<?> myClassSupplier) {
+        long actual = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
         long expected = CustomSizeMeasurer.measure(myClassSupplier);
 
         assertThat(expected).isEqualTo(actual);
