@@ -1,6 +1,6 @@
 package ru.otus.homework02.measure.tool.field.handler.reference;
 
-import ru.otus.homework02.measure.tool.ShallowObjectSizeMeter;
+import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
@@ -21,7 +21,7 @@ public class ReferenceTypeHandler extends FieldHandler {
 
     private final MemorySpecification memorySpecification = MemorySpecification.getCurrentSpecification();
 
-    public ReferenceTypeHandler(@Nonnull ShallowObjectSizeMeter sizeMeter,
+    public ReferenceTypeHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
                                 @Nonnull FieldHandlerProvider provider,
                                 @Nonnull FieldVisitor fieldVisitor) {
         super(sizeMeter, provider, fieldVisitor);

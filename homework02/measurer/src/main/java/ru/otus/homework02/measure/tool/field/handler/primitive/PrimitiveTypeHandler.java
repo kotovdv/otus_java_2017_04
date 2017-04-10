@@ -1,7 +1,7 @@
 package ru.otus.homework02.measure.tool.field.handler.primitive;
 
 import com.google.common.collect.ImmutableMap;
-import ru.otus.homework02.measure.tool.ShallowObjectSizeMeter;
+import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
@@ -28,7 +28,7 @@ public class PrimitiveTypeHandler extends FieldHandler {
             .build();
 
 
-    public PrimitiveTypeHandler(@Nonnull ShallowObjectSizeMeter sizeMeter,
+    public PrimitiveTypeHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
                                 @Nonnull FieldHandlerProvider provider,
                                 @Nonnull FieldVisitor fieldVisitor) {
         super(sizeMeter, provider, fieldVisitor);

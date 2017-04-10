@@ -8,16 +8,16 @@ import java.lang.instrument.Instrumentation;
 /**
  * @author Dmitriy Kotov
  */
-public class ShallowObjectSizeMeter {
+public class ObjectShallowSizeMeter {
 
     private final Instrumentation instrumentation;
 
-    private ShallowObjectSizeMeter(@Nonnull Instrumentation instrumentation) {
+    private ObjectShallowSizeMeter(@Nonnull Instrumentation instrumentation) {
         this.instrumentation = instrumentation;
     }
 
-    public static ShallowObjectSizeMeter create() {
-        return new ShallowObjectSizeMeter(Agent.getInstrumentation());
+    public static ObjectShallowSizeMeter create() {
+        return new ObjectShallowSizeMeter(Agent.getInstrumentation());
     }
 
     public long getObjectSize(final Object object) {
