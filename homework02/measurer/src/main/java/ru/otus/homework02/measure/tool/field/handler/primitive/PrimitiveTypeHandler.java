@@ -3,9 +3,9 @@ package ru.otus.homework02.measure.tool.field.handler.primitive;
 import com.google.common.collect.ImmutableMap;
 import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
-import ru.otus.homework02.measure.tool.field.TargetField;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
+import ru.otus.homework02.measure.tool.field.target.TargetField;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;

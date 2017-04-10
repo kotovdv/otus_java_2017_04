@@ -1,4 +1,4 @@
-package ru.otus.homework02.measure.tool.field;
+package ru.otus.homework02.measure.tool.field.target;
 
 import javax.annotation.Nullable;
 

@@ -2,7 +2,7 @@ package ru.otus.homework02.measure.tool.field.handler;
 
 import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
-import ru.otus.homework02.measure.tool.field.TargetField;
+import ru.otus.homework02.measure.tool.field.target.TargetField;
 import ru.otus.homework02.measure.tool.memory.MemorySpecification;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
