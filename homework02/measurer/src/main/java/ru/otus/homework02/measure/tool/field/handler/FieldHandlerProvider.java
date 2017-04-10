@@ -3,6 +3,7 @@ package ru.otus.homework02.measure.tool.field.handler;
 import ru.otus.homework02.exception.measure.tool.field.handler.NoSuitableFieldHandlerFoundException;
 import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
+import ru.otus.homework02.measure.tool.field.handler.array.ArrayTypeHandler;
 import ru.otus.homework02.measure.tool.field.handler.primitive.PrimitiveTypeHandler;
 import ru.otus.homework02.measure.tool.field.handler.reference.ReferenceTypeHandler;
 
@@ -22,6 +23,7 @@ public class FieldHandlerProvider {
         FieldVisitor fieldVisitor = new FieldVisitor();
         ObjectShallowSizeMeter sizeMeter = ObjectShallowSizeMeter.create();
         provider.handlers.add(new PrimitiveTypeHandler(sizeMeter, provider, fieldVisitor));
+        provider.handlers.add(new ArrayTypeHandler(sizeMeter, provider, fieldVisitor));
         provider.handlers.add(new ReferenceTypeHandler(sizeMeter, provider, fieldVisitor));
 
         return provider;

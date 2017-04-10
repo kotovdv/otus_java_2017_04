@@ -1,5 +1,6 @@
 package ru.otus.homework02.measure.tool;
 
+import ru.otus.homework02.measure.tool.field.ReflectionField;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measure.tool.result.Result;
@@ -23,7 +24,7 @@ public class SizeMeasurementTool {
 
         FieldHandler handler = provider.provideHandlerFor(target.targetClass);
         ResultNodeBuilder builder = handler.handleField(
-                target.getTargetField(),
+                new ReflectionField(target.getTargetField()),
                 target
         );
 

@@ -39,7 +39,10 @@ public class SizeMeasurementResultPrinter {
                     .append("\t")
                     .append(element("Field name", currentNode.getFieldName()))
                     .append("\t")
-                    .append(element("Field type", currentNode.getFieldType()))
+                    .append(element("Instance type", currentNode.getInstanceType()))
+                    .append("\t")
+                    .append(element("Instance value", currentNode.getValue()))
+
                     .append("\t")
                     .append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
                     .append("\n");

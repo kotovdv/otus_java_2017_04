@@ -19,6 +19,7 @@ public class ResultNodeBuilder {
     private boolean isDuplicate;
     private String fieldName;
     private Class<?> fieldType;
+    private Class<?> instanceType;
     private Object value;
     private Long personalSize;
     private long branchSize;
@@ -48,6 +49,10 @@ public class ResultNodeBuilder {
 
     public Class<?> getFieldType() {
         return fieldType;
+    }
+
+    public Class<?> getInstanceType() {
+        return instanceType;
     }
 
     public Object getValue() {
@@ -84,6 +89,12 @@ public class ResultNodeBuilder {
 
     public ResultNodeBuilder fieldType(@Nonnull Class<?> type) {
         this.fieldType = type;
+
+        return this;
+    }
+
+    public ResultNodeBuilder instanceType(Class<?> type) {
+        this.instanceType = type;
 
         return this;
     }

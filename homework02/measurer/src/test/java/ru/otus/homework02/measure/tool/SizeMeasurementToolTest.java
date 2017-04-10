@@ -55,6 +55,20 @@ public class SizeMeasurementToolTest {
         );
     }
 
+    @Test
+    public void testArrayWithRandomElements() throws Exception {
+        assertMeasurements(() -> {
+                    HashMap<Object, Object> map = new HashMap<>();
+                    map.put(300, 350);
+                    return new Object[]{
+                            new Object(),
+                            new Object(),
+                            map
+                    };
+                }
+        );
+    }
+
     private void assertMeasurements(Supplier<?> myClassSupplier) {
         long actual = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
         long expected = CustomSizeMeasurer.measure(myClassSupplier);

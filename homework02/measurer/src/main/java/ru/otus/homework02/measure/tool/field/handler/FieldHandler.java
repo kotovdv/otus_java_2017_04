@@ -1,12 +1,12 @@
 package ru.otus.homework02.measure.tool.field.handler;
 
-import ru.otus.homework02.exception.measure.tool.field.handler.UnableToGetFieldValueException;
 import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
+import ru.otus.homework02.measure.tool.field.TargetField;
+import ru.otus.homework02.measure.tool.memory.MemorySpecification;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 
 import static java.lang.reflect.Modifier.isStatic;
@@ -19,6 +19,7 @@ public abstract class FieldHandler {
     protected final ObjectShallowSizeMeter sizeMeter;
     protected final FieldHandlerProvider provider;
     protected final FieldVisitor fieldVisitor;
+    private final MemorySpecification memorySpecification = MemorySpecification.getCurrentSpecification();
 
     protected FieldHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
                            @Nonnull FieldHandlerProvider provider,
@@ -30,27 +31,22 @@ public abstract class FieldHandler {
 
     public abstract boolean canHandle(Class<?> type);
 
-    public abstract ResultNodeBuilder handleField(final Field targetField, final Object source);
-
-    @Nullable
-    protected Object getFieldValue(Field field, Object source) {
-        Object value;
-        try {
-            if (field.isAccessible()) {
-                value = field.get(source);
-            } else {
-                field.setAccessible(true);
-                value = field.get(source);
-                field.setAccessible(false);
-            }
-        } catch (IllegalAccessException e) {
-            throw new UnableToGetFieldValueException(field, source);
-        }
-
-        return value;
-    }
+    public abstract ResultNodeBuilder handleField(final TargetField targetField, final Object source);
 
     protected boolean isStaticField(Field declaredField) {
         return isStatic(declaredField.getModifiers());
     }
+
+    protected long sizeOf(@Nonnull TargetField targetField, @Nonnull Object source) {
+        Object fieldObject = targetField.getValue(source);
+
+        return fieldObject != null
+                ? sizeMeter.getObjectSize(fieldObject)
+                : calculateEmptyReferenceSize();
+    }
+
+    private long calculateEmptyReferenceSize() {
+        return memorySpecification.getReferenceSize();
+    }
+
 }

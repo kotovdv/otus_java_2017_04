@@ -14,7 +14,8 @@ public class ResultNode {
     private final long id;
     private final boolean isDuplicate;
     private final String fieldName;
-    private final Class<?> type;
+    private final Class<?> fieldType;
+    private final Class<?> instanceType;
     private final Object value;
     private final long personalSize;
     private final long branchSize;
@@ -24,7 +25,8 @@ public class ResultNode {
         this.id = builder.getId();
         this.isDuplicate = builder.isDuplicate();
         this.fieldName = builder.getFieldName();
-        this.type = builder.getFieldType();
+        this.fieldType = builder.getFieldType();
+        this.instanceType = builder.getInstanceType();
         this.value = builder.getValue();
         this.personalSize = builder.getPersonalSize();
         this.branchSize = builder.getBranchSize();
@@ -40,7 +42,11 @@ public class ResultNode {
     }
 
     public Class<?> getFieldType() {
-        return type;
+        return fieldType;
+    }
+
+    public Class<?> getInstanceType() {
+        return instanceType;
     }
 
     public Object getValue() {

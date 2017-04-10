@@ -3,18 +3,18 @@ package ru.otus.homework02.measure.tool.field.handler.primitive;
 import com.google.common.collect.ImmutableMap;
 import ru.otus.homework02.measure.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measure.tool.field.FieldVisitor;
+import ru.otus.homework02.measure.tool.field.TargetField;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
  * @author Dmitriy Kotov
  */
-public class PrimitiveTypeHandler extends FieldHandler {
+public final class PrimitiveTypeHandler extends FieldHandler {
 
     private Map<Class<?>, Long> primitiveSizes = ImmutableMap.<Class<?>, Long>builder()
             .put(Byte.TYPE, 1L)
@@ -35,12 +35,13 @@ public class PrimitiveTypeHandler extends FieldHandler {
     }
 
     @Override
-    public ResultNodeBuilder handleField(Field targetField, Object source) {
-        Object targetFieldValue = getFieldValue(targetField, source);
+    public ResultNodeBuilder handleField(TargetField targetField, Object source) {
+        Object targetFieldValue = targetField.getValue(source);
 
         return new ResultNodeBuilder()
-                .fieldName(targetField.getName())
-                .fieldType(targetField.getType())
+                .fieldName(targetField.getFieldName())
+                .fieldType(targetField.getFieldType())
+                .instanceType(targetField.getFieldType())
                 .value(targetFieldValue)
                 .personalSize(sizeOf(targetField))
                 .branchSize(0);
@@ -51,8 +52,8 @@ public class PrimitiveTypeHandler extends FieldHandler {
         return primitiveSizes.keySet().contains(type);
     }
 
-    private long sizeOf(@Nonnull Field targetField) {
-        Class<?> type = targetField.getType();
+    private long sizeOf(@Nonnull TargetField targetField) {
+        Class<?> type = targetField.getFieldType();
 
         return primitiveSizes.get(type);
     }
