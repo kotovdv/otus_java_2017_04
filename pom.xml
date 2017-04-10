@@ -89,6 +89,11 @@
                 <artifactId>jamm</artifactId>
                 <version>0.3.1</version>
             </dependency>
+            <dependency>
+                <groupId>com.ea.agentloader</groupId>
+                <artifactId>ea-agent-loader</artifactId>
+                <version>1.0.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
