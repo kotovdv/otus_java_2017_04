@@ -34,24 +34,16 @@ public class SizeMeasurementResultPrinter {
             ResultNode currentNode = currentOutput.getNode();
             int currentShift = currentOutput.getShiftLevel();
 
-            outputBuilder
-                    .append(shift(currentShift))
-                    .append("Name = [")
-                    .append(currentNode.getFieldName())
-                    .append("]")
+            outputBuilder.append(shift(currentShift))
+                    .append(element("Id", currentNode.getId()))
                     .append("\t")
-                    .append("Type = [")
-                    .append(currentNode.getFieldType())
-                    .append("]")
+                    .append(element("Field name", currentNode.getFieldName()))
                     .append("\t")
-                    .append("Value = [")
-                    .append(currentNode.getValue())
-                    .append("]")
+                    .append(element("Field type", currentNode.getFieldType()))
                     .append("\t")
-                    .append("Personal size =[")
-                    .append(currentNode.getPersonalSize())
-                    .append("]")
+                    .append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
                     .append("\n");
+
 
             currentNode.getChildren().forEach(
                     element -> outputQueue.addLast(
@@ -68,6 +60,14 @@ public class SizeMeasurementResultPrinter {
                 String.join("", nCopies(l, "\t")
                 )
         );
+    }
+
+
+    public String element(String name, Object value) {
+        return name +
+                "= [" +
+                value +
+                "]";
     }
 
 }

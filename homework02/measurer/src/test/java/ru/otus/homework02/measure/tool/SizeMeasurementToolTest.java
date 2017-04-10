@@ -2,6 +2,8 @@ package ru.otus.homework02.measure.tool;
 
 import org.junit.Test;
 import ru.otus.homework02.CustomSizeMeasurer;
+import ru.otus.homework02.measure.tool.result.Result;
+import ru.otus.homework02.measure.tool.subject.GenericObject;
 import ru.otus.homework02.measure.tool.subject.SingleFieldClass;
 
 import java.util.HashMap;
@@ -36,10 +38,22 @@ public class SizeMeasurementToolTest {
         assertMeasurements(HashMap::new);
     }
 
-    private void assertMeasurements(Supplier<?> myClassSupplier) {
-        long expected = CustomSizeMeasurer.measure(myClassSupplier);
+    @Test
+    public void testRecursivelyLinkedObject() throws Exception {
+        assertMeasurements(() -> {
+            GenericObject parent = new GenericObject();
+            parent.setGenericObject(parent);
 
-        long actual = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
+            return parent;
+        });
+    }
+
+    private void assertMeasurements(Supplier<?> myClassSupplier) {
+        Result measure = sizeMeasurementTool.measure(myClassSupplier.get());
+        measure.print();
+
+        long actual = measure.getTotalSize();
+        long expected = CustomSizeMeasurer.measure(myClassSupplier);
 
         assertThat(expected).isEqualTo(actual);
     }

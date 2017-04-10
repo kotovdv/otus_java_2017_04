@@ -11,6 +11,8 @@ import static java.util.Collections.emptyList;
  */
 public class ResultNode {
 
+    private final long id;
+    private final boolean isDuplicate;
     private final String fieldName;
     private final Class<?> type;
     private final Object value;
@@ -18,19 +20,19 @@ public class ResultNode {
     private final long branchSize;
     private List<ResultNode> children = new ArrayList<>();
 
-    public ResultNode(String fieldName,
-                      Class<?> type,
-                      Object value,
-                      long personalSize,
-                      long branchSize,
-                      List<ResultNode> children) {
-
-        this.fieldName = fieldName;
-        this.type = type;
-        this.value = value;
-        this.personalSize = personalSize;
-        this.branchSize = branchSize;
+    public ResultNode(ResultNodeBuilder builder, List<ResultNode> children) {
+        this.id = builder.getId();
+        this.isDuplicate = builder.isDuplicate();
+        this.fieldName = builder.getFieldName();
+        this.type = builder.getFieldType();
+        this.value = builder.getValue();
+        this.personalSize = builder.getPersonalSize();
+        this.branchSize = builder.getBranchSize();
         this.children.addAll(children != null ? children : emptyList());
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFieldName() {
@@ -55,5 +57,9 @@ public class ResultNode {
 
     public List<ResultNode> getChildren() {
         return Collections.unmodifiableList(children);
+    }
+
+    public boolean isDuplicate() {
+        return isDuplicate;
     }
 }

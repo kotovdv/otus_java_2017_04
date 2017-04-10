@@ -1,15 +1,14 @@
-package ru.otus.homework02.measure.tool.handler.concrete;
+package ru.otus.homework02.measure.tool.handler.primitive;
 
 import com.google.common.collect.ImmutableMap;
 import ru.otus.homework02.measure.tool.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
-import ru.otus.homework02.measure.tool.result.ResultNode;
+import ru.otus.homework02.measure.tool.handler.FieldVisitor;
+import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.Map;
-
-import static java.util.Collections.emptyList;
 
 /**
  * @author Dmitriy Kotov
@@ -28,22 +27,20 @@ public class PrimitiveTypeHandler extends FieldHandler {
             .build();
 
 
-    public PrimitiveTypeHandler(@Nonnull FieldHandlerProvider provider) {
-        super(provider);
+    public PrimitiveTypeHandler(@Nonnull FieldHandlerProvider provider, @Nonnull FieldVisitor fieldVisitor) {
+        super(provider, fieldVisitor);
     }
 
     @Override
-    public ResultNode handleField(Field targetField, Object source) {
+    public ResultNodeBuilder handleField(Field targetField, Object source) {
         Object targetFieldValue = getFieldValue(targetField, source);
 
-        return new ResultNode(
-                targetField.getName(),
-                selectNodeType(targetField, targetFieldValue),
-                targetFieldValue,
-                size(targetField, source),
-                0,
-                emptyList()
-        );
+        return new ResultNodeBuilder()
+                .fieldName(targetField.getName())
+                .fieldType(targetField.getType())
+                .value(targetFieldValue)
+                .personalSize(size(targetField, source))
+                .branchSize(0);
     }
 
     @Override

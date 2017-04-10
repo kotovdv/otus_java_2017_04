@@ -1,8 +1,8 @@
 package ru.otus.homework02.measure.tool.handler;
 
 import ru.otus.homework02.exception.NoSuitableFieldHandlerFoundException;
-import ru.otus.homework02.measure.tool.handler.concrete.PrimitiveTypeHandler;
-import ru.otus.homework02.measure.tool.handler.concrete.ReferenceTypeHandler;
+import ru.otus.homework02.measure.tool.handler.primitive.PrimitiveTypeHandler;
+import ru.otus.homework02.measure.tool.handler.reference.ReferenceTypeHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class FieldHandlerProvider {
 
-    private List<FieldHandler> handlers = new ArrayList<>();
+    private final List<FieldHandler> handlers = new ArrayList<>();
 
     public static FieldHandlerProvider produceProvider() {
         FieldHandlerProvider provider = new FieldHandlerProvider();
 
-        provider.handlers.add(new PrimitiveTypeHandler(provider));
-//        provider.handlers.add(new CollectionTypeHandler(provider));
-        provider.handlers.add(new ReferenceTypeHandler(provider));
+        FieldVisitor fieldVisitor = new FieldVisitor();
+        provider.handlers.add(new PrimitiveTypeHandler(provider, fieldVisitor));
+        provider.handlers.add(new ReferenceTypeHandler(provider, fieldVisitor));
 
         return provider;
     }

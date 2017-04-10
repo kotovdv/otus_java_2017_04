@@ -1,11 +1,13 @@
 package ru.otus.homework02.measure.tool.handler;
 
 import ru.otus.homework02.exception.UnableToGetFieldValueException;
-import ru.otus.homework02.measure.tool.result.ResultNode;
+import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+
+import static java.lang.reflect.Modifier.isStatic;
 
 /**
  * @author Dmitriy Kotov
@@ -13,12 +15,18 @@ import java.lang.reflect.Field;
 public abstract class FieldHandler {
 
     protected final FieldHandlerProvider provider;
+    protected final FieldVisitor fieldVisitor;
 
-    protected FieldHandler(@Nonnull FieldHandlerProvider provider) {
+    protected FieldHandler(@Nonnull FieldHandlerProvider provider, FieldVisitor fieldVisitor) {
         this.provider = provider;
+        this.fieldVisitor = fieldVisitor;
     }
 
-    public abstract ResultNode handleField(final Field targetField, final Object source);
+    public abstract boolean canHandle(Class<?> type);
+
+    public abstract long size(@Nonnull Field currentField, Object source);
+
+    public abstract ResultNodeBuilder handleField(final Field targetField, final Object source);
 
     @Nullable
     protected Object getFieldValue(Field field, Object source) {
@@ -38,13 +46,7 @@ public abstract class FieldHandler {
         return value;
     }
 
-    protected Class<?> selectNodeType(Field targetField, Object targetFieldValue) {
-        return targetFieldValue != null
-                ? targetFieldValue.getClass()
-                : targetField.getType();
+    protected boolean isStaticField(Field declaredField) {
+        return isStatic(declaredField.getModifiers());
     }
-
-    public abstract long size(@Nonnull Field currentField, Object source);
-
-    public abstract boolean canHandle(Class<?> type);
 }

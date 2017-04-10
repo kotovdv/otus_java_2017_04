@@ -1,4 +1,4 @@
-package ru.otus.homework02.measure.tool.handler.concrete.memory;
+package ru.otus.homework02.measure.tool.memory;
 
 import ru.otus.homework02.exception.UnableToDetermineJVMBitness;
 

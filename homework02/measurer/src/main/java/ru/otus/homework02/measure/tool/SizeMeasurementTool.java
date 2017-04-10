@@ -1,9 +1,9 @@
 package ru.otus.homework02.measure.tool;
 
+import ru.otus.homework02.measure.tool.handler.FieldHandler;
 import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
-import ru.otus.homework02.measure.tool.handler.concrete.ReferenceTypeHandler;
 import ru.otus.homework02.measure.tool.result.Result;
-import ru.otus.homework02.measure.tool.result.ResultNode;
+import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import java.lang.reflect.Field;
 
@@ -12,9 +12,7 @@ import java.lang.reflect.Field;
  */
 public class SizeMeasurementTool {
 
-    private final ReferenceTypeHandler startingHandler = new ReferenceTypeHandler(
-            FieldHandlerProvider.produceProvider()
-    );
+    private final FieldHandlerProvider provider = FieldHandlerProvider.produceProvider();
 
     public Result measure(Object instance) {
         if (instance == null) {
@@ -23,12 +21,13 @@ public class SizeMeasurementTool {
 
         MeasurementTarget target = new MeasurementTarget(instance);
 
-        ResultNode rootNode = startingHandler.handleField(
+        FieldHandler handler = provider.provideHandlerFor(target.targetClass);
+        ResultNodeBuilder builder = handler.handleField(
                 target.getTargetField(),
                 target
         );
 
-        return new Result(rootNode);
+        return new Result(builder.build());
     }
 
 
