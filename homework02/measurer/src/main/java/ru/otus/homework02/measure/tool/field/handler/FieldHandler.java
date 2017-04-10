@@ -1,6 +1,8 @@
-package ru.otus.homework02.measure.tool.handler;
+package ru.otus.homework02.measure.tool.field.handler;
 
-import ru.otus.homework02.exception.UnableToGetFieldValueException;
+import ru.otus.homework02.exception.measure.tool.field.handler.UnableToGetFieldValueException;
+import ru.otus.homework02.measure.tool.ShallowObjectSizeMeter;
+import ru.otus.homework02.measure.tool.field.FieldVisitor;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
@@ -14,17 +16,19 @@ import static java.lang.reflect.Modifier.isStatic;
  */
 public abstract class FieldHandler {
 
+    protected final ShallowObjectSizeMeter sizeMeter;
     protected final FieldHandlerProvider provider;
     protected final FieldVisitor fieldVisitor;
 
-    protected FieldHandler(@Nonnull FieldHandlerProvider provider, FieldVisitor fieldVisitor) {
+    protected FieldHandler(@Nonnull ShallowObjectSizeMeter sizeMeter,
+                           @Nonnull FieldHandlerProvider provider,
+                           @Nonnull FieldVisitor fieldVisitor) {
+        this.sizeMeter = sizeMeter;
         this.provider = provider;
         this.fieldVisitor = fieldVisitor;
     }
 
     public abstract boolean canHandle(Class<?> type);
-
-    public abstract long size(@Nonnull Field currentField, Object source);
 
     public abstract ResultNodeBuilder handleField(final Field targetField, final Object source);
 

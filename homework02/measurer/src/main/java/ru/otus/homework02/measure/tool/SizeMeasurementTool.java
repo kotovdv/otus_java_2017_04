@@ -1,7 +1,7 @@
 package ru.otus.homework02.measure.tool;
 
-import ru.otus.homework02.measure.tool.handler.FieldHandler;
-import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measure.tool.result.Result;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 

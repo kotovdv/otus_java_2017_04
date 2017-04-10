@@ -1,8 +1,9 @@
-package ru.otus.homework02.measure.tool.handler.reference;
+package ru.otus.homework02.measure.tool.field.handler.reference;
 
-import ru.otus.homework02.measure.tool.handler.FieldHandler;
-import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
-import ru.otus.homework02.measure.tool.handler.FieldVisitor;
+import ru.otus.homework02.measure.tool.ShallowObjectSizeMeter;
+import ru.otus.homework02.measure.tool.field.FieldVisitor;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measure.tool.memory.MemorySpecification;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.otus.homework02.agent.Agent.getObjectSize;
 
 /**
  * @author Dmitriy Kotov
@@ -21,22 +21,15 @@ public class ReferenceTypeHandler extends FieldHandler {
 
     private final MemorySpecification memorySpecification = MemorySpecification.getCurrentSpecification();
 
-    public ReferenceTypeHandler(@Nonnull FieldHandlerProvider provider, @Nonnull FieldVisitor fieldVisitor) {
-        super(provider, fieldVisitor);
+    public ReferenceTypeHandler(@Nonnull ShallowObjectSizeMeter sizeMeter,
+                                @Nonnull FieldHandlerProvider provider,
+                                @Nonnull FieldVisitor fieldVisitor) {
+        super(sizeMeter, provider, fieldVisitor);
     }
 
     @Override
     public boolean canHandle(Class<?> type) {
         return !type.isPrimitive();
-    }
-
-    @Override
-    public long size(@Nonnull Field instanceField, Object source) {
-        Object fieldObject = getFieldValue(instanceField, source);
-
-        return fieldObject != null
-                ? getObjectSize(fieldObject)
-                : calculateEmptyReferenceSize();
     }
 
     @Override
@@ -46,7 +39,7 @@ public class ReferenceTypeHandler extends FieldHandler {
         ResultNodeBuilder builder = new ResultNodeBuilder().
                 fieldName(targetField.getName()).
                 fieldType(targetField.getType()).
-                personalSize(size(targetField, source)).
+                personalSize(sizeOf(targetField, source)).
                 value(targetObject);
 
         if (targetObject == null) {
@@ -104,5 +97,13 @@ public class ReferenceTypeHandler extends FieldHandler {
 
     private Field[] getDeclaredFields(Class<?> classType) {
         return classType.getDeclaredFields();
+    }
+
+    private long sizeOf(@Nonnull Field instanceField, Object source) {
+        Object fieldObject = getFieldValue(instanceField, source);
+
+        return fieldObject != null
+                ? sizeMeter.getObjectSize(fieldObject)
+                : calculateEmptyReferenceSize();
     }
 }

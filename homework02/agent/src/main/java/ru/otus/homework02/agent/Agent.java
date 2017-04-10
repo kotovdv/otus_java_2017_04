@@ -1,5 +1,7 @@
 package ru.otus.homework02.agent;
 
+import ru.otus.homework02.agent.exception.FailedToLoadAgentException;
+
 import java.lang.instrument.Instrumentation;
 
 import static com.ea.agentloader.AgentLoader.loadAgentClass;
@@ -29,11 +31,24 @@ public class Agent {
         globalInstrumentation = instrumentation;
     }
 
-    public static long getObjectSize(final Object object) {
+    public static Instrumentation getInstrumentation() {
         if (globalInstrumentation == null) {
-            loadAgentClass(Agent.class.getName(), "");
+            synchronized (Agent.class) {
+                if (globalInstrumentation == null) {
+                    safeInitialize();
+                }
+            }
         }
 
-        return globalInstrumentation.getObjectSize(object);
+        return globalInstrumentation;
     }
+
+    private static void safeInitialize() {
+        loadAgentClass(Agent.class.getName(), "");
+        if (globalInstrumentation == null) {
+            throw new FailedToLoadAgentException(Agent.class);
+        }
+    }
+
+
 }

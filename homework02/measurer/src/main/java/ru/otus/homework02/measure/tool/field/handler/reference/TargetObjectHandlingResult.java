@@ -1,4 +1,4 @@
-package ru.otus.homework02.measure.tool.handler.reference;
+package ru.otus.homework02.measure.tool.field.handler.reference;
 
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 

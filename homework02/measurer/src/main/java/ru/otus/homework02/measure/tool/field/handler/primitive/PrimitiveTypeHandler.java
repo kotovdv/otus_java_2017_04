@@ -1,9 +1,10 @@
-package ru.otus.homework02.measure.tool.handler.primitive;
+package ru.otus.homework02.measure.tool.field.handler.primitive;
 
 import com.google.common.collect.ImmutableMap;
-import ru.otus.homework02.measure.tool.handler.FieldHandler;
-import ru.otus.homework02.measure.tool.handler.FieldHandlerProvider;
-import ru.otus.homework02.measure.tool.handler.FieldVisitor;
+import ru.otus.homework02.measure.tool.ShallowObjectSizeMeter;
+import ru.otus.homework02.measure.tool.field.FieldVisitor;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandler;
+import ru.otus.homework02.measure.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
@@ -27,8 +28,10 @@ public class PrimitiveTypeHandler extends FieldHandler {
             .build();
 
 
-    public PrimitiveTypeHandler(@Nonnull FieldHandlerProvider provider, @Nonnull FieldVisitor fieldVisitor) {
-        super(provider, fieldVisitor);
+    public PrimitiveTypeHandler(@Nonnull ShallowObjectSizeMeter sizeMeter,
+                                @Nonnull FieldHandlerProvider provider,
+                                @Nonnull FieldVisitor fieldVisitor) {
+        super(sizeMeter, provider, fieldVisitor);
     }
 
     @Override
@@ -39,7 +42,7 @@ public class PrimitiveTypeHandler extends FieldHandler {
                 .fieldName(targetField.getName())
                 .fieldType(targetField.getType())
                 .value(targetFieldValue)
-                .personalSize(size(targetField, source))
+                .personalSize(sizeOf(targetField))
                 .branchSize(0);
     }
 
@@ -48,8 +51,7 @@ public class PrimitiveTypeHandler extends FieldHandler {
         return primitiveSizes.keySet().contains(type);
     }
 
-    @Override
-    public long size(@Nonnull Field targetField, Object source) {
+    private long sizeOf(@Nonnull Field targetField) {
         Class<?> type = targetField.getType();
 
         return primitiveSizes.get(type);

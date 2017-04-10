@@ -1,4 +1,6 @@
-package ru.otus.homework02.exception;
+package ru.otus.homework02.exception.measure.tool.memory;
+
+import ru.otus.homework02.exception.Homework02Exception;
 
 /**
  * @author Dmitriy Kotov

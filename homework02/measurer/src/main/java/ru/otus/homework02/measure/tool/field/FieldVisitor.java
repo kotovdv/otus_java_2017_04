@@ -1,6 +1,6 @@
-package ru.otus.homework02.measure.tool.handler;
+package ru.otus.homework02.measure.tool.field;
 
-import ru.otus.homework02.exception.FieldWasPreviouslyBeforeException;
+import ru.otus.homework02.exception.measure.tool.field.FieldWasPreviouslyVisitedException;
 import ru.otus.homework02.measure.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
@@ -16,7 +16,7 @@ public class FieldVisitor {
 
     public void visit(@Nonnull Object object, @Nonnull ResultNodeBuilder resultNode) {
         if (getLastVisit(object).isPresent()) {
-            throw new FieldWasPreviouslyBeforeException(
+            throw new FieldWasPreviouslyVisitedException(
                     resultNode.getFieldName(),
                     resultNode.getFieldType()
             );
