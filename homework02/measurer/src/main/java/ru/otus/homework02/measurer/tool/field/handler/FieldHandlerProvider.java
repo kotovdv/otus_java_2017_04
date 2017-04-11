@@ -1,6 +1,6 @@
 package ru.otus.homework02.measurer.tool.field.handler;
 
-import ru.otus.homework02.measurer.exception.measure.tool.field.handler.NoSuitableFieldHandlerFoundException;
+import ru.otus.homework02.measurer.exception.tool.field.handler.NoSuitableFieldHandlerFoundException;
 import ru.otus.homework02.measurer.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.array.ArrayTypeHandler;

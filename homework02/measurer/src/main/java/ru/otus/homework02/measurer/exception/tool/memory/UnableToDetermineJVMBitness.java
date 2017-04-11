@@ -1,4 +1,4 @@
-package ru.otus.homework02.measurer.exception.measure.tool.memory;
+package ru.otus.homework02.measurer.exception.tool.memory;
 
 import ru.otus.homework02.measurer.exception.Homework02Exception;
 

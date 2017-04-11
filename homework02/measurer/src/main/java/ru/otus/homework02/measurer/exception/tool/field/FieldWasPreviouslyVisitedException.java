@@ -1,4 +1,4 @@
-package ru.otus.homework02.measurer.exception.measure.tool.field;
+package ru.otus.homework02.measurer.exception.tool.field;
 
 import ru.otus.homework02.measurer.exception.Homework02Exception;
 

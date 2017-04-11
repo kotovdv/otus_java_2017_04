@@ -1,6 +1,6 @@
 package ru.otus.homework02.measurer.tool.memory;
 
-import ru.otus.homework02.measurer.exception.measure.tool.memory.UnableToDetermineJVMBitness;
+import ru.otus.homework02.measurer.exception.tool.memory.UnableToDetermineJVMBitness;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;

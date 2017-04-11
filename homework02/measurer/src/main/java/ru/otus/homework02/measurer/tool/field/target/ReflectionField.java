@@ -1,6 +1,6 @@
 package ru.otus.homework02.measurer.tool.field.target;
 
-import ru.otus.homework02.measurer.exception.measure.tool.field.handler.UnableToGetFieldValueException;
+import ru.otus.homework02.measurer.exception.tool.field.handler.UnableToGetFieldValueException;
 
 import java.lang.reflect.Field;
 

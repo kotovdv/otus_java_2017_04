@@ -1,6 +1,6 @@
 package ru.otus.homework02.measurer.tool.field;
 
-import ru.otus.homework02.measurer.exception.measure.tool.field.FieldWasPreviouslyVisitedException;
+import ru.otus.homework02.measurer.exception.tool.field.FieldWasPreviouslyVisitedException;
 import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
 
 import javax.annotation.Nonnull;
