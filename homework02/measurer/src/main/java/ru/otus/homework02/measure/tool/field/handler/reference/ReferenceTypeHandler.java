@@ -50,6 +50,7 @@ public class ReferenceTypeHandler extends FieldHandler {
 
         if (lastVisit.isPresent()) {
             return new ResultNodeBuilder(lastVisit.get())
+                    .branchSize(0)
                     .duplicate(true);
         }
 

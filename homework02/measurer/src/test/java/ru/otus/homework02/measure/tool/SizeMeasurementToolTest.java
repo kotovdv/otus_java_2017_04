@@ -7,6 +7,7 @@ import ru.otus.homework02.measure.tool.subject.SingleFieldClass;
 import ru.otus.homework02.measure.tool.subject.inheritance.Child;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,11 +70,22 @@ public class SizeMeasurementToolTest {
         );
     }
 
-    private void assertMeasurements(Supplier<?> myClassSupplier) {
-        long actual = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
-        long expected = CustomSizeMeasurer.measure(myClassSupplier);
+    @Test
+    public void testLinkedListHandling() throws Exception {
+        assertMeasurements(() -> {
+            LinkedList<Integer> list = new LinkedList<>();
+            list.add(380);
+            list.add(400);
 
-        assertThat(expected).isEqualTo(actual);
+            return list;
+        });
+    }
+
+    private void assertMeasurements(Supplier<?> myClassSupplier) {
+        long expected = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
+        long actual = CustomSizeMeasurer.measure(myClassSupplier);
+
+        assertThat(actual).isEqualTo(expected);
     }
 }
 
