@@ -68,4 +68,13 @@ public class ResultNode {
     public boolean isDuplicate() {
         return isDuplicate;
     }
+
+    @Override
+    public String toString() {
+        return "ResultNode{" +
+                "id=" + id +
+                ", fieldName='" + fieldName + '\'' +
+                ", fieldType=" + fieldType +
+                '}';
+    }
 }

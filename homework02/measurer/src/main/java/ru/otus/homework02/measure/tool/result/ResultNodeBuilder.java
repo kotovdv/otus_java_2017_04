@@ -33,6 +33,7 @@ public class ResultNodeBuilder {
         this.isDuplicate = builder.isDuplicate();
         this.fieldName = builder.getFieldName();
         this.fieldType = builder.getFieldType();
+        this.instanceType = builder.getInstanceType();
         this.value = builder.getValue();
         this.personalSize = builder.getPersonalSize();
         this.branchSize = builder.getBranchSize();

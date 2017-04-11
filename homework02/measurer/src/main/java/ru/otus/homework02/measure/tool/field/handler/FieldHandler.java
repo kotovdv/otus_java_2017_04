@@ -29,7 +29,7 @@ public abstract class FieldHandler {
         this.fieldVisitor = fieldVisitor;
     }
 
-    public abstract boolean canHandle(Class<?> type);
+    public abstract boolean canHandle(@Nonnull Class<?> type);
 
     public abstract ResultNodeBuilder handleField(final TargetField targetField, final Object source);
 

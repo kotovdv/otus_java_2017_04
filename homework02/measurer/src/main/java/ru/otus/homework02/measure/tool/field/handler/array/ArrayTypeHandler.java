@@ -27,7 +27,7 @@ public final class ArrayTypeHandler extends ReferenceTypeHandler {
     }
 
     @Override
-    public boolean canHandle(Class<?> type) {
+    public boolean canHandle(@Nonnull Class<?> type) {
         return type.isArray();
     }
 

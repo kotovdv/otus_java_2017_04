@@ -48,7 +48,7 @@ public final class PrimitiveTypeHandler extends FieldHandler {
     }
 
     @Override
-    public boolean canHandle(Class<?> type) {
+    public boolean canHandle(@Nonnull Class<?> type) {
         return primitiveSizes.keySet().contains(type);
     }
 

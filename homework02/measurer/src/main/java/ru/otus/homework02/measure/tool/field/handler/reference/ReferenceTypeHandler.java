@@ -27,7 +27,7 @@ public class ReferenceTypeHandler extends FieldHandler {
     }
 
     @Override
-    public boolean canHandle(Class<?> type) {
+    public boolean canHandle(@Nonnull Class<?> type) {
         return !type.isPrimitive();
     }
 

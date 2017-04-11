@@ -4,12 +4,11 @@ import ru.otus.homework02.measure.tool.result.ResultNode;
 
 import javax.annotation.Nonnull;
 import java.io.PrintStream;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Collections.nCopies;
+import static java.util.Collections.reverse;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Dmitriy Kotov
@@ -37,24 +36,49 @@ public class SizeMeasurementResultPrinter {
             outputBuilder.append(shift(currentShift))
                     .append(element("Id", currentNode.getId()))
                     .append("\t")
-                    .append(element("Field name", currentNode.getFieldName()))
+                    .append(element("Name", currentNode.getFieldName()))
                     .append("\t")
-                    .append(element("Instance type", currentNode.getInstanceType()))
-                    .append("\t")
-                    .append(element("Instance value", currentNode.getValue()))
+                    .append(element("Type", selectType(currentNode)))
+                    .append("\t");
 
-                    .append("\t")
-                    .append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
+            if (isPrimitiveField(currentNode)) {
+                outputBuilder
+                        .append(element("Value", currentNode.getValue()))
+                        .append("\t");
+            }
+
+            outputBuilder.append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
                     .append("\n");
 
 
-            currentNode.getChildren().forEach(
-                    element -> outputQueue.addLast(
-                            new OutputElement(element, currentShift + SHIFT_STEP))
-            );
+            List<ResultNode> children = currentNode.getChildren();
+
+
+            List<OutputElement> childrenOutput = prepareChildOutput(currentShift, children);
+            childrenOutput.forEach(outputQueue::addFirst);
         }
 
         printStream.print(outputBuilder.toString());
+    }
+
+    private List<OutputElement> prepareChildOutput(int currentShift, List<ResultNode> children) {
+        List<OutputElement> collect = children.stream().map(element -> (
+                        new OutputElement(element, currentShift + SHIFT_STEP)
+                )
+        ).collect(toList());
+        reverse(collect);
+
+        return collect;
+    }
+
+    private boolean isPrimitiveField(ResultNode currentNode) {
+        return currentNode.getFieldType().isPrimitive();
+    }
+
+    private Class<?> selectType(ResultNode currentNode) {
+        return currentNode.getValue() == null
+                ? currentNode.getFieldType()
+                : currentNode.getInstanceType();
     }
 
 

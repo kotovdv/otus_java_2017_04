@@ -7,6 +7,7 @@ import ru.otus.homework02.measure.tool.field.handler.array.ArrayTypeHandler;
 import ru.otus.homework02.measure.tool.field.handler.primitive.PrimitiveTypeHandler;
 import ru.otus.homework02.measure.tool.field.handler.reference.ReferenceTypeHandler;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class FieldHandlerProvider {
         return provider;
     }
 
-    public FieldHandler provideHandlerFor(Class<?> type) {
+    public FieldHandler provideHandlerFor(@Nonnull Class<?> type) {
         for (FieldHandler handler : handlers) {
             if (handler.canHandle(type)) {
                 return handler;
