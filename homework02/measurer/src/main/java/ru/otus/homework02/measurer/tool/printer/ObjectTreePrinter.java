@@ -1,5 +1,6 @@
 package ru.otus.homework02.measurer.tool.printer;
 
+import ru.otus.homework02.measurer.tool.result.ObjectTree;
 import ru.otus.homework02.measurer.tool.result.ResultNode;
 
 import javax.annotation.Nonnull;
@@ -13,18 +14,20 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Dmitriy Kotov
  */
-public class SizeMeasurementResultPrinter {
+public class ObjectTreePrinter {
 
     private static final int SHIFT_STEP = 3;
     private Map<Integer, String> shiftsCache = new HashMap<>();
 
-    public static void printNodes(@Nonnull PrintStream printStream, @Nonnull ResultNode rootNode) {
-        new SizeMeasurementResultPrinter().print(printStream, rootNode);
+    public static void printTree(@Nonnull PrintStream printStream, @Nonnull ObjectTree objectTree) {
+        new ObjectTreePrinter().print(printStream, objectTree);
     }
 
-    public void print(@Nonnull PrintStream printStream, @Nonnull ResultNode rootNode) {
+    public void print(@Nonnull PrintStream printStream, @Nonnull ObjectTree objectTree) {
+        printStream.println(String.format("Displaying object tree measured at [%s]", objectTree.getMeasurementDt()));
+
         Deque<OutputElement> outputQueue = new LinkedList<>();
-        outputQueue.add(new OutputElement(rootNode, 0));
+        outputQueue.add(new OutputElement(objectTree.getRootNode(), 0));
 
         StringBuilder outputBuilder = new StringBuilder();
 
@@ -33,7 +36,8 @@ public class SizeMeasurementResultPrinter {
             ResultNode currentNode = currentOutput.getNode();
             int currentShift = currentOutput.getShiftLevel();
 
-            outputBuilder.append(shift(currentShift))
+            outputBuilder
+                    .append(shift(currentShift))
                     .append(element("Id", currentNode.getId()))
                     .append("\t")
                     .append(element("Name", currentNode.getFieldName()))
@@ -47,7 +51,11 @@ public class SizeMeasurementResultPrinter {
                         .append("\t");
             }
 
-            outputBuilder.append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
+            outputBuilder
+                    .append("\t")
+                    .append(element("Size", currentNode.getBranchSize()))
+                    .append("\t")
+                    .append(currentNode.isDuplicate() ? "[DUPLICATE]" : "")
                     .append("\n");
 
 
@@ -89,8 +97,7 @@ public class SizeMeasurementResultPrinter {
         );
     }
 
-
-    public String element(String name, Object value) {
+    private String element(String name, Object value) {
         return name +
                 "= [" +
                 value +

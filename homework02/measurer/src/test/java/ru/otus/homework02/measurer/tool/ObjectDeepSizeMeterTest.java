@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Dmitriy Kotov
  */
-public class SizeMeasurementToolTest {
+public class ObjectDeepSizeMeterTest {
 
-    private SizeMeasurementTool sizeMeasurementTool = new SizeMeasurementTool();
+    private ObjectDeepSizeMeter objectDeepSizeMeter = new ObjectDeepSizeMeter();
 
     @Test
     public void testEmptyArray() throws Exception {
@@ -150,7 +150,7 @@ public class SizeMeasurementToolTest {
     }
 
     private void assertMeasurements(Supplier<?> myClassSupplier) {
-        long customMeterValue = sizeMeasurementTool.measure(myClassSupplier.get()).getTotalSize();
+        long customMeterValue = objectDeepSizeMeter.measure(myClassSupplier.get()).getTotalSize();
         long jammMeterValue = JammBasedMeter.measure(myClassSupplier);
 
         assertThat(customMeterValue).isEqualTo(jammMeterValue);

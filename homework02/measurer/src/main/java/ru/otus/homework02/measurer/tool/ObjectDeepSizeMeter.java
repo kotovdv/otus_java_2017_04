@@ -3,7 +3,7 @@ package ru.otus.homework02.measurer.tool;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.ReflectionField;
-import ru.otus.homework02.measurer.tool.result.Result;
+import ru.otus.homework02.measurer.tool.result.ObjectTree;
 import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
 
 import java.lang.reflect.Field;
@@ -13,9 +13,9 @@ import static ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvide
 /**
  * @author Dmitriy Kotov
  */
-public class SizeMeasurementTool {
+public class ObjectDeepSizeMeter {
 
-    public Result measure(Object instance) {
+    public ObjectTree measure(Object instance) {
         if (instance == null) {
             throw new IllegalArgumentException("Measured instance should be not null");
         }
@@ -30,7 +30,7 @@ public class SizeMeasurementTool {
                 target
         );
 
-        return new Result(builder.build());
+        return new ObjectTree(builder.build());
     }
 
 
