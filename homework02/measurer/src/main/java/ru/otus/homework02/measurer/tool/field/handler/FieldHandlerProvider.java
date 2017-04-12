@@ -18,10 +18,9 @@ public class FieldHandlerProvider {
 
     private final List<FieldHandler> handlers = new ArrayList<>();
 
-    public static FieldHandlerProvider produceProvider() {
+    public static FieldHandlerProvider produceProvider(FieldVisitor fieldVisitor) {
         FieldHandlerProvider provider = new FieldHandlerProvider();
 
-        FieldVisitor fieldVisitor = new FieldVisitor();
         ObjectShallowSizeMeter sizeMeter = ObjectShallowSizeMeter.create();
         provider.handlers.add(new PrimitiveTypeHandler(sizeMeter, provider, fieldVisitor));
         provider.handlers.add(new ArrayTypeHandler(sizeMeter, provider, fieldVisitor));

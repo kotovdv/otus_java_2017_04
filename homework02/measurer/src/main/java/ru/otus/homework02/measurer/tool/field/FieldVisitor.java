@@ -30,4 +30,7 @@ public class FieldVisitor {
         return Optional.ofNullable(identityHashMap.get(target));
     }
 
+    public void clear() {
+        this.identityHashMap.clear();
+    }
 }

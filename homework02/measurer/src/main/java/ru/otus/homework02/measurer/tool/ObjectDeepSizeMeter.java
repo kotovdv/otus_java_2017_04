@@ -1,5 +1,6 @@
 package ru.otus.homework02.measurer.tool;
 
+import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.ReflectionField;
@@ -15,6 +16,10 @@ import static ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvide
  */
 public class ObjectDeepSizeMeter {
 
+    private final FieldVisitor fieldVisitor = new FieldVisitor();
+    private final FieldHandlerProvider provider = produceProvider(fieldVisitor);
+
+
     public ObjectTree measure(Object instance) {
         if (instance == null) {
             throw new IllegalArgumentException("Measured instance should be not null");
@@ -22,21 +27,21 @@ public class ObjectDeepSizeMeter {
 
         MeasurementTarget target = new MeasurementTarget(instance);
 
-        FieldHandlerProvider provider = produceProvider();
-
         FieldHandler handler = provider.provideHandlerFor(target.targetClass);
         ResultNodeBuilder builder = handler.handleField(
                 new ReflectionField(target.getTargetField()),
                 target
         );
+        fieldVisitor.clear();
+
 
         return new ObjectTree(builder.build());
     }
 
 
     private static class MeasurementTarget {
-        public final Object target;
-        public final Class<?> targetClass;
+        final Object target;
+        final Class<?> targetClass;
 
         private MeasurementTarget(Object target) {
             this.target = target;

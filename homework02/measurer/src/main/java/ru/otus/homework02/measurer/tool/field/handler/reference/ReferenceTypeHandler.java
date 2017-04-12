@@ -61,10 +61,6 @@ public class ReferenceTypeHandler extends FieldHandler {
                 addChildren(handlingResult.getChildren());
     }
 
-    private long calculateBranchSize(ResultNodeBuilder builder, TargetObjectHandlingResult handlingResult) {
-        return builder.getPersonalSize() + handlingResult.getBranchSize();
-    }
-
     protected TargetObjectHandlingResult handleTargetObject(@Nonnull Object targetObject) {
         List<ResultNodeBuilder> children = new ArrayList<>();
 
@@ -72,8 +68,8 @@ public class ReferenceTypeHandler extends FieldHandler {
 
         Class<?> targetObjectClass = targetObject.getClass();
 
-        do {
-            for (Field currentField : getDeclaredFields(targetObjectClass)) {
+        while (targetObjectClass != null) {
+            for (Field currentField : targetObjectClass.getDeclaredFields()) {
                 if (isStaticField(currentField)) {
                     continue;
                 }
@@ -88,16 +84,18 @@ public class ReferenceTypeHandler extends FieldHandler {
             }
 
             targetObjectClass = targetObjectClass.getSuperclass();
-        } while (targetObjectClass != null);
+        }
 
         return new TargetObjectHandlingResult(children, branchSize);
     }
 
-    protected Class<?> getInstanceType(Object targetObject) {
-        return targetObject != null ? targetObject.getClass() : null;
+    private Class<?> getInstanceType(Object targetObject) {
+        return targetObject != null
+                ? targetObject.getClass()
+                : null;
     }
 
-    private Field[] getDeclaredFields(Class<?> classType) {
-        return classType.getDeclaredFields();
+    private long calculateBranchSize(ResultNodeBuilder builder, TargetObjectHandlingResult handlingResult) {
+        return builder.getPersonalSize() + handlingResult.getBranchSize();
     }
 }
