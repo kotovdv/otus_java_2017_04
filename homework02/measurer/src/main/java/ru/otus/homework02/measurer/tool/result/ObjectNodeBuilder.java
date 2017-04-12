@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Dmitriy Kotov
  */
-public class ResultNodeBuilder {
+public class ObjectNodeBuilder {
 
     private int id = IdentityGenerator.nextIdentity();
     private boolean isDuplicate;
@@ -23,12 +23,12 @@ public class ResultNodeBuilder {
     private Object value;
     private Long personalSize;
     private long branchSize;
-    private List<ResultNodeBuilder> children = new ArrayList<>();
+    private List<ObjectNodeBuilder> children = new ArrayList<>();
 
-    public ResultNodeBuilder() {
+    public ObjectNodeBuilder() {
     }
 
-    public ResultNodeBuilder(ResultNodeBuilder builder) {
+    public ObjectNodeBuilder(ObjectNodeBuilder builder) {
         this.id = builder.getId();
         this.isDuplicate = builder.isDuplicate();
         this.fieldName = builder.getFieldName();
@@ -72,70 +72,70 @@ public class ResultNodeBuilder {
         return isDuplicate;
     }
 
-    public List<ResultNodeBuilder> getChildren() {
+    public List<ObjectNodeBuilder> getChildren() {
         return children;
     }
 
-    public ResultNodeBuilder id(int id) {
+    public ObjectNodeBuilder id(int id) {
         this.id = id;
 
         return this;
     }
 
-    public ResultNodeBuilder fieldName(@Nonnull String fieldName) {
+    public ObjectNodeBuilder fieldName(@Nonnull String fieldName) {
         this.fieldName = fieldName;
 
         return this;
     }
 
-    public ResultNodeBuilder fieldType(@Nonnull Class<?> type) {
+    public ObjectNodeBuilder fieldType(@Nonnull Class<?> type) {
         this.fieldType = type;
 
         return this;
     }
 
-    public ResultNodeBuilder instanceType(Class<?> type) {
+    public ObjectNodeBuilder instanceType(Class<?> type) {
         this.instanceType = type;
 
         return this;
     }
 
-    public ResultNodeBuilder value(Object value) {
+    public ObjectNodeBuilder value(Object value) {
         this.value = value;
 
         return this;
     }
 
-    public ResultNodeBuilder personalSize(long personalSize) {
+    public ObjectNodeBuilder personalSize(long personalSize) {
         this.personalSize = personalSize;
 
         return this;
     }
 
-    public ResultNodeBuilder branchSize(long branchSize) {
+    public ObjectNodeBuilder branchSize(long branchSize) {
         this.branchSize = branchSize;
 
         return this;
     }
 
-    public ResultNodeBuilder duplicate(boolean value) {
+    public ObjectNodeBuilder duplicate(boolean value) {
         this.isDuplicate = value;
 
         return this;
     }
 
-    public ResultNodeBuilder addChildren(@Nonnull Collection<ResultNodeBuilder> children) {
+    public ObjectNodeBuilder addChildren(@Nonnull Collection<ObjectNodeBuilder> children) {
         this.children.addAll(children);
 
         return this;
     }
 
-    public ResultNode build() {
+    public ObjectNode build() {
         Preconditions.checkNotNull(fieldName, "Field name must be filled");
         Preconditions.checkNotNull(personalSize, "Personal size must be filled");
 
-        return new ResultNode(this,
-                children.stream().map(ResultNodeBuilder::build)
+        return new ObjectNode(this,
+                children.stream().map(ObjectNodeBuilder::build)
                         .collect(toList())
         );
     }

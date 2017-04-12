@@ -6,7 +6,7 @@ import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.ReflectionField;
 import ru.otus.homework02.measurer.tool.field.target.TargetField;
-import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
+import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -32,10 +32,10 @@ public class ReferenceTypeHandler extends FieldHandler {
     }
 
     @Override
-    public ResultNodeBuilder handleField(final TargetField targetField, final Object source) {
+    public ObjectNodeBuilder handleField(final TargetField targetField, final Object source) {
         Object targetObject = targetField.getValue(source);
 
-        ResultNodeBuilder builder = new ResultNodeBuilder().
+        ObjectNodeBuilder builder = new ObjectNodeBuilder().
                 fieldName(targetField.getFieldName()).
                 fieldType(targetField.getFieldType()).
                 instanceType(getInstanceType(targetObject)).
@@ -46,10 +46,10 @@ public class ReferenceTypeHandler extends FieldHandler {
             return builder;
         }
 
-        Optional<ResultNodeBuilder> lastVisit = fieldVisitor.getLastVisit(targetObject);
+        Optional<ObjectNodeBuilder> lastVisit = fieldVisitor.getLastVisit(targetObject);
 
         if (lastVisit.isPresent()) {
-            return new ResultNodeBuilder(lastVisit.get())
+            return new ObjectNodeBuilder(lastVisit.get())
                     .branchSize(0)
                     .duplicate(true);
         }
@@ -62,7 +62,7 @@ public class ReferenceTypeHandler extends FieldHandler {
     }
 
     protected TargetObjectHandlingResult handleTargetObject(@Nonnull Object targetObject) {
-        List<ResultNodeBuilder> children = new ArrayList<>();
+        List<ObjectNodeBuilder> children = new ArrayList<>();
 
         long branchSize = 0;
 
@@ -77,7 +77,7 @@ public class ReferenceTypeHandler extends FieldHandler {
                 FieldHandler currentHandler = provider.provideHandlerFor(currentField.getType());
 
                 TargetField targetField = new ReflectionField(currentField);
-                ResultNodeBuilder child = currentHandler.handleField(targetField, targetObject);
+                ObjectNodeBuilder child = currentHandler.handleField(targetField, targetObject);
                 branchSize += child.getBranchSize();
 
                 children.add(child);
@@ -95,7 +95,7 @@ public class ReferenceTypeHandler extends FieldHandler {
                 : null;
     }
 
-    private long calculateBranchSize(ResultNodeBuilder builder, TargetObjectHandlingResult handlingResult) {
+    private long calculateBranchSize(ObjectNodeBuilder builder, TargetObjectHandlingResult handlingResult) {
         return builder.getPersonalSize() + handlingResult.getBranchSize();
     }
 }

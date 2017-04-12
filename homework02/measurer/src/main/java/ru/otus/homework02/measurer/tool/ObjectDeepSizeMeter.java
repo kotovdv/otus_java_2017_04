@@ -4,8 +4,8 @@ import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.ReflectionField;
+import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 import ru.otus.homework02.measurer.tool.result.ObjectTree;
-import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
 
 import java.lang.reflect.Field;
 
@@ -28,7 +28,7 @@ public class ObjectDeepSizeMeter {
         MeasurementTarget target = new MeasurementTarget(instance);
 
         FieldHandler handler = provider.provideHandlerFor(target.targetClass);
-        ResultNodeBuilder builder = handler.handleField(
+        ObjectNodeBuilder builder = handler.handleField(
                 new ReflectionField(target.getTargetField()),
                 target
         );

@@ -1,6 +1,6 @@
 package ru.otus.homework02.measurer.tool.field.handler.reference;
 
-import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
+import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import java.util.Collection;
 
@@ -9,15 +9,15 @@ import java.util.Collection;
  */
 public class TargetObjectHandlingResult {
 
-    private final Collection<ResultNodeBuilder> children;
     private final long branchSize;
+    private final Collection<ObjectNodeBuilder> children;
 
-    public TargetObjectHandlingResult(Collection<ResultNodeBuilder> children, long branchSize) {
+    public TargetObjectHandlingResult(Collection<ObjectNodeBuilder> children, long branchSize) {
         this.children = children;
         this.branchSize = branchSize;
     }
 
-    public Collection<ResultNodeBuilder> getChildren() {
+    public Collection<ObjectNodeBuilder> getChildren() {
         return children;
     }
 

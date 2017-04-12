@@ -9,7 +9,7 @@ import ru.otus.homework02.measurer.tool.field.handler.reference.ReferenceTypeHan
 import ru.otus.homework02.measurer.tool.field.handler.reference.TargetObjectHandlingResult;
 import ru.otus.homework02.measurer.tool.field.target.ArrayField;
 import ru.otus.homework02.measurer.tool.field.target.TargetField;
-import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
+import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Array;
@@ -47,7 +47,7 @@ public final class ArrayTypeHandler extends ReferenceTypeHandler {
 
     @Override
     protected TargetObjectHandlingResult handleTargetObject(@Nonnull Object targetArray) {
-        List<ResultNodeBuilder> children = new ArrayList<>();
+        List<ObjectNodeBuilder> children = new ArrayList<>();
 
         long branchSize = 0;
 
@@ -61,7 +61,7 @@ public final class ArrayTypeHandler extends ReferenceTypeHandler {
                 FieldHandler fieldHandler = provider.provideHandlerFor(elementType);
                 TargetField arrayField = new ArrayField("element[" + i + "]", i, elementType);
 
-                ResultNodeBuilder child = fieldHandler.handleField(arrayField, targetArray);
+                ObjectNodeBuilder child = fieldHandler.handleField(arrayField, targetArray);
                 children.add(child);
                 branchSize += child.getBranchSize();
             }

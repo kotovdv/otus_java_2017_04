@@ -10,14 +10,14 @@ import static java.time.LocalDateTime.now;
 public class ObjectTree {
 
     private final LocalDateTime measurementDt;
-    private final ResultNode rootNode;
+    private final ObjectNode rootNode;
 
-    public ObjectTree(ResultNode rootNode) {
+    public ObjectTree(ObjectNode rootNode) {
         this(now(), rootNode);
     }
 
     public ObjectTree(LocalDateTime measurementDt,
-                      ResultNode node) {
+                      ObjectNode node) {
         this.measurementDt = measurementDt;
         this.rootNode = node;
     }
@@ -30,7 +30,7 @@ public class ObjectTree {
         return rootNode.getBranchSize();
     }
 
-    public ResultNode getRootNode() {
+    public ObjectNode getRootNode() {
         return rootNode;
     }
 

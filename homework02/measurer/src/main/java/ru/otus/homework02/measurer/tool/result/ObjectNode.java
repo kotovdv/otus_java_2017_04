@@ -9,7 +9,7 @@ import static java.util.Collections.emptyList;
 /**
  * @author Dmitriy Kotov
  */
-public class ResultNode {
+public class ObjectNode {
 
     private final long id;
     private final boolean isDuplicate;
@@ -19,9 +19,9 @@ public class ResultNode {
     private final Object value;
     private final long personalSize;
     private final long branchSize;
-    private List<ResultNode> children = new ArrayList<>();
+    private List<ObjectNode> children = new ArrayList<>();
 
-    public ResultNode(ResultNodeBuilder builder, List<ResultNode> children) {
+    public ObjectNode(ObjectNodeBuilder builder, List<ObjectNode> children) {
         this.id = builder.getId();
         this.isDuplicate = builder.isDuplicate();
         this.fieldName = builder.getFieldName();
@@ -61,7 +61,7 @@ public class ResultNode {
         return branchSize;
     }
 
-    public List<ResultNode> getChildren() {
+    public List<ObjectNode> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
@@ -71,7 +71,7 @@ public class ResultNode {
 
     @Override
     public String toString() {
-        return "ResultNode{" +
+        return "ObjectNode{" +
                 "id=" + id +
                 ", fieldName='" + fieldName + '\'' +
                 ", fieldType=" + fieldType +

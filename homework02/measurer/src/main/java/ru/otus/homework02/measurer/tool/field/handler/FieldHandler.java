@@ -4,7 +4,7 @@ import ru.otus.homework02.measurer.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.target.TargetField;
 import ru.otus.homework02.measurer.tool.memory.MemorySpecification;
-import ru.otus.homework02.measurer.tool.result.ResultNodeBuilder;
+import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -31,7 +31,7 @@ public abstract class FieldHandler {
 
     public abstract boolean canHandle(@Nonnull Class<?> type);
 
-    public abstract ResultNodeBuilder handleField(final TargetField targetField, final Object source);
+    public abstract ObjectNodeBuilder handleField(final TargetField targetField, final Object source);
 
     protected boolean isStaticField(Field declaredField) {
         return isStatic(declaredField.getModifiers());
