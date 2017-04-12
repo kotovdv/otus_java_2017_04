@@ -56,7 +56,6 @@
         <dependency>
             <groupId>com.ea.agentloader</groupId>
             <artifactId>ea-agent-loader</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
