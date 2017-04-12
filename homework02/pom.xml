@@ -22,7 +22,7 @@
             <dependency>
                 <groupId>ru.otus</groupId>
                 <artifactId>agent</artifactId>
-                <version>${pom.parent.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
         </dependencies>
 

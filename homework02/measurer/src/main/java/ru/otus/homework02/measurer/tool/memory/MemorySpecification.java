@@ -4,6 +4,7 @@ import ru.otus.homework02.measurer.exception.tool.memory.UnableToDetermineJVMBit
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.RuntimeMXBean;
 
 /**
  * @author Dmitriy Kotov
@@ -14,7 +15,7 @@ public enum MemorySpecification {
     JVM_64_OOPS_ENABLED(16L, 12L, 8L, 4L),
     JVM_64_OOPS_DISABLED(24L, 16L, 8L, 8L);
 
-    private static final long OOPS_GIGABYTES_THRESHOLD = 30L * 1024 * 1024 * 1024;
+    private static final long OOPS_GIGABYTES_THRESHOLD = 32L * 1024 * 1024 * 1024;
 
     private final long arrayHeaderSize;
     private final long objectHeaderSize;
@@ -51,8 +52,33 @@ public enum MemorySpecification {
         }
     }
 
+    private static String getBitness() {
+        String bitness = System.getProperty("sun.arch.data.model");
+        if (bitness == null) {
+            throw new UnableToDetermineJVMBitness("sun.arch.data.model is empty");
+        }
+
+        return bitness;
+    }
+
     private static boolean isCompressionEnabled() {
-        return maxMemory() < OOPS_GIGABYTES_THRESHOLD && javaVersion() > 17;
+        boolean hasLessThanThreshold = maxMemory() < OOPS_GIGABYTES_THRESHOLD;
+        boolean isAtLeastJavaSeven = javaVersion() > 17;
+
+        return hasLessThanThreshold &&
+                isAtLeastJavaSeven &&
+                isNotDisabledManually();
+    }
+
+    private static boolean isNotDisabledManually() {
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        for (String arg : runtimeMXBean.getInputArguments()) {
+            if ("-XX:-UseCompressedOops".equalsIgnoreCase(arg)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static int javaVersion() {
@@ -69,16 +95,6 @@ public enum MemorySpecification {
         }
 
         return maxMemory;
-    }
-
-
-    private static String getBitness() {
-        String bitness = System.getProperty("sun.arch.data.model");
-        if (bitness == null) {
-            throw new UnableToDetermineJVMBitness("sun.arch.data.model is empty");
-        }
-
-        return bitness;
     }
 
     public long getArrayHeaderSize() {

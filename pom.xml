@@ -31,6 +31,10 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
@@ -83,6 +87,11 @@
                 <groupId>com.ea.agentloader</groupId>
                 <artifactId>ea-agent-loader</artifactId>
                 <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jbellis</groupId>
+                <artifactId>jamm</artifactId>
+                <version>0.3.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
