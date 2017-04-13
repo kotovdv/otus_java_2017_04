@@ -7,9 +7,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class IdentityGenerator {
 
-    private static AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger(0);
 
-    public static int nextIdentity() {
+    public int next() {
         return counter.incrementAndGet();
+    }
+
+    public void clear() {
+        counter.set(0);
     }
 }

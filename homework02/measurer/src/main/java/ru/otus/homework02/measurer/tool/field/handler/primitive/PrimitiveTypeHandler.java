@@ -6,6 +6,7 @@ import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.TargetField;
+import ru.otus.homework02.measurer.tool.misc.IdentityGenerator;
 import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import javax.annotation.Nonnull;
@@ -28,10 +29,11 @@ public final class PrimitiveTypeHandler extends FieldHandler {
             .build();
 
 
-    public PrimitiveTypeHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
+    public PrimitiveTypeHandler(@Nonnull IdentityGenerator identityGenerator,
+                                @Nonnull ObjectShallowSizeMeter sizeMeter,
                                 @Nonnull FieldHandlerProvider provider,
                                 @Nonnull FieldVisitor fieldVisitor) {
-        super(sizeMeter, provider, fieldVisitor);
+        super(identityGenerator, sizeMeter, provider, fieldVisitor);
     }
 
     @Override
@@ -39,6 +41,7 @@ public final class PrimitiveTypeHandler extends FieldHandler {
         Object targetFieldValue = targetField.getValue(source);
 
         return new ObjectNodeBuilder()
+                .id(identityGenerator.next())
                 .fieldName(targetField.getFieldName())
                 .fieldType(targetField.getFieldType())
                 .instanceType(targetField.getFieldType())

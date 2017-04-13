@@ -1,13 +1,11 @@
 package ru.otus.homework02.measurer.tool.result;
 
-import com.google.common.base.Preconditions;
-import ru.otus.homework02.measurer.tool.misc.IdentityGenerator;
-
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -15,7 +13,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class ObjectNodeBuilder {
 
-    private int id = IdentityGenerator.nextIdentity();
+    private Integer id;
     private boolean isDuplicate;
     private String fieldName;
     private Class<?> fieldType;
@@ -131,12 +129,14 @@ public class ObjectNodeBuilder {
     }
 
     public ObjectNode build() {
-        Preconditions.checkNotNull(fieldName, "Field name must be filled");
-        Preconditions.checkNotNull(personalSize, "Personal size must be filled");
+        checkNotNull(id, "Id must be filled");
+        checkNotNull(fieldName, "Field name must be filled");
+        checkNotNull(personalSize, "Personal size must be filled");
 
         return new ObjectNode(this,
-                children.stream().map(ObjectNodeBuilder::build)
-                        .collect(toList())
+                children.stream().
+                        map(ObjectNodeBuilder::build).
+                        collect(toList())
         );
     }
 }

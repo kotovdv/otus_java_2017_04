@@ -8,6 +8,7 @@ import ru.otus.homework02.measurer.tool.field.handler.reference.ReferenceTypeHan
 import ru.otus.homework02.measurer.tool.field.handler.reference.TargetObjectHandlingResult;
 import ru.otus.homework02.measurer.tool.field.target.ArrayField;
 import ru.otus.homework02.measurer.tool.field.target.TargetField;
+import ru.otus.homework02.measurer.tool.misc.IdentityGenerator;
 import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 
 import javax.annotation.Nonnull;
@@ -20,10 +21,11 @@ import java.util.List;
  */
 public final class ArrayTypeHandler extends ReferenceTypeHandler {
 
-    public ArrayTypeHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
+    public ArrayTypeHandler(@Nonnull IdentityGenerator identityGenerator,
+                            @Nonnull ObjectShallowSizeMeter sizeMeter,
                             @Nonnull FieldHandlerProvider provider,
                             @Nonnull FieldVisitor fieldVisitor) {
-        super(sizeMeter, provider, fieldVisitor);
+        super(identityGenerator, sizeMeter, provider, fieldVisitor);
     }
 
     @Override

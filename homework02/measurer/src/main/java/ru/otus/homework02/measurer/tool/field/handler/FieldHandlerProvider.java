@@ -6,6 +6,7 @@ import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.array.ArrayTypeHandler;
 import ru.otus.homework02.measurer.tool.field.handler.primitive.PrimitiveTypeHandler;
 import ru.otus.homework02.measurer.tool.field.handler.reference.ReferenceTypeHandler;
+import ru.otus.homework02.measurer.tool.misc.IdentityGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ public class FieldHandlerProvider {
 
     private final List<FieldHandler> handlers = new ArrayList<>();
 
-    public static FieldHandlerProvider produceProvider(FieldVisitor fieldVisitor) {
+    public static FieldHandlerProvider produceProvider(@Nonnull IdentityGenerator identityGenerator, @Nonnull FieldVisitor fieldVisitor) {
         FieldHandlerProvider provider = new FieldHandlerProvider();
 
         ObjectShallowSizeMeter sizeMeter = ObjectShallowSizeMeter.create();
-        provider.handlers.add(new PrimitiveTypeHandler(sizeMeter, provider, fieldVisitor));
-        provider.handlers.add(new ArrayTypeHandler(sizeMeter, provider, fieldVisitor));
-        provider.handlers.add(new ReferenceTypeHandler(sizeMeter, provider, fieldVisitor));
+        provider.handlers.add(new PrimitiveTypeHandler(identityGenerator, sizeMeter, provider, fieldVisitor));
+        provider.handlers.add(new ArrayTypeHandler(identityGenerator, sizeMeter, provider, fieldVisitor));
+        provider.handlers.add(new ReferenceTypeHandler(identityGenerator, sizeMeter, provider, fieldVisitor));
 
         return provider;
     }

@@ -4,6 +4,7 @@ import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvider;
 import ru.otus.homework02.measurer.tool.field.target.ReflectionField;
+import ru.otus.homework02.measurer.tool.misc.IdentityGenerator;
 import ru.otus.homework02.measurer.tool.result.ObjectNodeBuilder;
 import ru.otus.homework02.measurer.tool.result.ObjectTree;
 
@@ -16,8 +17,9 @@ import static ru.otus.homework02.measurer.tool.field.handler.FieldHandlerProvide
  */
 public class ObjectDeepSizeMeter {
 
+    private final IdentityGenerator identityGenerator = new IdentityGenerator();
     private final FieldVisitor fieldVisitor = new FieldVisitor();
-    private final FieldHandlerProvider provider = produceProvider(fieldVisitor);
+    private final FieldHandlerProvider provider = produceProvider(identityGenerator, fieldVisitor);
 
     public ObjectTree measure(Object instance) {
         if (instance == null) {
@@ -32,7 +34,7 @@ public class ObjectDeepSizeMeter {
                 target
         );
         fieldVisitor.clear();
-
+        identityGenerator.clear();
 
         return new ObjectTree(builder.build());
     }
