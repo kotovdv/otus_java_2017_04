@@ -2,6 +2,7 @@ package ru.otus.homework02.measurer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.google.common.collect.ImmutableMap.of;
@@ -9,7 +10,7 @@ import static java.util.Arrays.asList;
 
 public class Scenarios {
 
-    private static final java.util.List<Scenario> SCENARIOS = asList(
+    private static final List<Scenario> SCENARIOS = asList(
             new Scenario("measure empty string", ""),
             new Scenario("measure empty array", new int[]{}),
             new Scenario("measure basic object", new Object()),
@@ -26,7 +27,6 @@ public class Scenarios {
                             "500", 500)
             )),
             new Scenario("measure filled array", new int[]{1, 3, 5, 7, 9})
-
     );
 
     public static void forEach(Consumer<? super Scenario> consumer) {
