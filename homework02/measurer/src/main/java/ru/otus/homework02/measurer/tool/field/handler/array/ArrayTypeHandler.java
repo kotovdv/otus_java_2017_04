@@ -1,6 +1,5 @@
 package ru.otus.homework02.measurer.tool.field.handler.array;
 
-import com.google.common.collect.ImmutableMap;
 import ru.otus.homework02.measurer.tool.ObjectShallowSizeMeter;
 import ru.otus.homework02.measurer.tool.field.FieldVisitor;
 import ru.otus.homework02.measurer.tool.field.handler.FieldHandler;
@@ -15,24 +14,11 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Dmitriy Kotov
  */
 public final class ArrayTypeHandler extends ReferenceTypeHandler {
-
-    private Map<Class<?>, Class<?>> primitiveArrays = ImmutableMap.<Class<?>, Class<?>>builder()
-            .put(byte[].class, byte.class)
-            .put(boolean[].class, boolean.class)
-            .put(short[].class, short.class)
-            .put(char[].class, char.class)
-            .put(int[].class, int.class)
-            .put(float[].class, float.class)
-            .put(long[].class, long.class)
-            .put(double[].class, double.class)
-            .build();
-
 
     public ArrayTypeHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
                             @Nonnull FieldHandlerProvider provider,
@@ -56,7 +42,7 @@ public final class ArrayTypeHandler extends ReferenceTypeHandler {
             Object arrayElement = Array.get(targetArray, i);
 
             if (arrayElement != null) {
-                Class<?> elementType = selectElementType(targetArray, arrayElement);
+                Class<?> elementType = targetArray.getClass().getComponentType();
 
                 FieldHandler fieldHandler = provider.provideHandlerFor(elementType);
                 TargetField arrayField = new ArrayField("element[" + i + "]", i, elementType);
@@ -68,12 +54,5 @@ public final class ArrayTypeHandler extends ReferenceTypeHandler {
         }
 
         return new TargetObjectHandlingResult(children, branchSize);
-    }
-
-
-    private Class<?> selectElementType(@Nonnull Object targetArray, @Nonnull Object arrayElement) {
-        return primitiveArrays.getOrDefault(
-                targetArray.getClass(),
-                arrayElement.getClass());
     }
 }
