@@ -19,7 +19,6 @@ public class ObjectDeepSizeMeter {
     private final FieldVisitor fieldVisitor = new FieldVisitor();
     private final FieldHandlerProvider provider = produceProvider(fieldVisitor);
 
-
     public ObjectTree measure(Object instance) {
         if (instance == null) {
             throw new IllegalArgumentException("Measured instance should be not null");
@@ -37,7 +36,6 @@ public class ObjectDeepSizeMeter {
 
         return new ObjectTree(builder.build());
     }
-
 
     private static class MeasurementTarget {
         final Object target;

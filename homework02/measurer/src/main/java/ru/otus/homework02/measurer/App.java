@@ -26,11 +26,9 @@ public class App {
         handleEmptyString();
         handleSimpleObject();
         List<Integer> arrayList = handleEmptyArrayList();
-        arrayList.add(500);
-        arrayList.add(1000);
-        arrayList.add(1500);
         handleFilledArrayList(arrayList);
         handleFilledHashMap();
+        handleFilledArray();
     }
 
     private void handleEmptyString() {
@@ -47,13 +45,16 @@ public class App {
 
     private List<Integer> handleEmptyArrayList() {
         List<Integer> emptyArrayList = new ArrayList<>();
-
         doHandling("measure empty array list", emptyArrayList);
 
         return emptyArrayList;
     }
 
     private void handleFilledArrayList(List<Integer> list) {
+        list.add(500);
+        list.add(1000);
+        list.add(1500);
+
         doHandling("measure filled array list", list);
     }
 
@@ -64,6 +65,10 @@ public class App {
         map.put(500, "500");
 
         doHandling("measure filled hash map", map);
+    }
+
+    private void handleFilledArray() {
+        doHandling("measure filled array", new int[]{1, 3, 5, 7, 9});
     }
 
     private void doHandling(@Nonnull String jobName, @Nonnull Object value) {
