@@ -12,16 +12,16 @@ public class App {
     private ObjectDeepSizeMeter deepSizeMeter = new ObjectDeepSizeMeter();
 
     public static void main(String[] args) {
-        new App().startShowcase();
+        new App().executeScenarios();
     }
 
-    public void startShowcase() {
-        Scenarios.forEach(this::doHandling);
+    public void executeScenarios() {
+        Scenarios.forEach(this::execute);
     }
 
-    private void doHandling(Scenario scenario) {
+    private void execute(Scenario scenario) {
         System.out.println("*********************");
-        System.out.println("Handling [" + scenario.getScenarioName() + "]");
+        System.out.println("Executing scenario [" + scenario.getScenarioName() + "]");
 
         ObjectTree objectTree = deepSizeMeter.measure(scenario.getMeasurementTarget());
         System.out.println("Total object size [" + objectTree.getTotalSize() + "]");
