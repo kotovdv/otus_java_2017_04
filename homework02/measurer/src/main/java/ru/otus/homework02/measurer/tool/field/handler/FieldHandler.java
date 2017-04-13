@@ -16,9 +16,9 @@ import static java.lang.reflect.Modifier.isStatic;
  */
 public abstract class FieldHandler {
 
-    protected final ObjectShallowSizeMeter sizeMeter;
     protected final FieldHandlerProvider provider;
     protected final FieldVisitor fieldVisitor;
+    private final ObjectShallowSizeMeter sizeMeter;
     private final MemorySpecification memorySpecification = MemorySpecification.getCurrentSpecification();
 
     protected FieldHandler(@Nonnull ObjectShallowSizeMeter sizeMeter,
@@ -41,7 +41,7 @@ public abstract class FieldHandler {
         Object fieldObject = targetField.getValue(source);
 
         return fieldObject != null
-                ? sizeMeter.getObjectSize(fieldObject)
+                ? sizeMeter.sizeOf(fieldObject)
                 : calculateEmptyReferenceSize();
     }
 

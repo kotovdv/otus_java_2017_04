@@ -20,7 +20,7 @@ public class ObjectShallowSizeMeter {
         return new ObjectShallowSizeMeter(Agent.getInstrumentation());
     }
 
-    public long getObjectSize(final Object object) {
+    public long sizeOf(final Object object) {
         return instrumentation.getObjectSize(object);
     }
 }

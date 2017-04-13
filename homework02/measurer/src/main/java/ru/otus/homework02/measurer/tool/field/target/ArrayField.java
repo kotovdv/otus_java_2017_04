@@ -1,5 +1,6 @@
 package ru.otus.homework02.measurer.tool.field.target;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Array;
 
 /**
@@ -28,7 +29,7 @@ public class ArrayField implements TargetField {
     }
 
     @Override
-    public Object getValue(Object source) {
+    public Object getValue(@Nonnull Object source) {
         return Array.get(source, index);
     }
 }

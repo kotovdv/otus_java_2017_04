@@ -2,6 +2,7 @@ package ru.otus.homework02.measurer.tool.field.target;
 
 import ru.otus.homework02.measurer.exception.tool.field.handler.UnableToGetFieldValueException;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 
 /**
@@ -26,7 +27,7 @@ public class ReflectionField implements TargetField {
     }
 
     @Override
-    public Object getValue(Object source) {
+    public Object getValue(@Nonnull Object source) {
         return getFieldValue(field, source);
     }
 

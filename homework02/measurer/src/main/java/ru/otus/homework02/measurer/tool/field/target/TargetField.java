@@ -1,5 +1,6 @@
 package ru.otus.homework02.measurer.tool.field.target;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -12,5 +13,5 @@ public interface TargetField {
     Class<?> getFieldType();
 
     @Nullable
-    Object getValue(Object source);
+    Object getValue(@Nonnull Object source);
 }
